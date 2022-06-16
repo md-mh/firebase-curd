@@ -2,9 +2,9 @@ import { useState } from "react";
 import "./App.css";
 
 function UploadDrive() {
-  const [fileUrl, setFileUrl] = useState([]);
+  const [file, setFile] = useState([]);
 
-  const guardarArchivo = (e) => {
+  const driveUpload = (e) => {
     var file = e.target.files[0]; //the file
     var reader = new FileReader(); //this for convert to Base64
     reader.readAsDataURL(e.target.files[0]); //start conversion...
@@ -22,7 +22,7 @@ function UploadDrive() {
         .then((res) => res.json())
         .then((a) => {
           console.log(a); //See response
-          setFileUrl(a);
+          setFile(a);
         })
         .catch((e) => console.log(e)); // Or Error in console
     };
@@ -30,9 +30,17 @@ function UploadDrive() {
 
   return (
     <div className="App">
-      <input type="file" id="customFile" onChange={(e) => guardarArchivo(e)} />
+      <input type="file" id="customFile" onChange={(e) => driveUpload(e)} />
 
-      <p>{fileUrl.url}</p>
+      <img
+        src={`https://drive.google.com/thumbnail?id=${file.id}`}
+        alt="thumbnail Img"
+      />
+      <img
+        src={`http://drive.google.com/uc?export=view&id=${file.id}`}
+        alt="Full Img"
+      />
+      <p>{file.url}</p>
     </div>
   );
 }
